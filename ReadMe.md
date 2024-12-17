@@ -25,3 +25,33 @@
 <h2> BatchSize </h2>
 
 `batchsize`
+```java
+@OneToMany(mappedBy = "author", fetch = FetchType.LAZY)
+@BatchSize(size = 10)
+private List<Book> books;
+```
+
+результат при запросе 10-ти в бачсайзе
+
+```java
+select a1_0.id,a1_0.name from author a1_0;
+select b1_0.author_id,b1_0.id,b1_0.title from book b1_0 where b1_0.author_id = any (?);
+```
+
+давайте установим бачсайз 1
+```sql
+select a1_0.id,a1_0.name from author a1_0
+select b1_0.author_id,b1_0.id,b1_0.title from book b1_0 where b1_0.author_id=?;
+select b1_0.author_id,b1_0.id,b1_0.title from book b1_0 where b1_0.author_id=?;
+select b1_0.author_id,b1_0.id,b1_0.title from book b1_0 where b1_0.author_id=?;
+```
+
+А если 2
+
+```sql
+select a1_0.id,a1_0.name from author a1_0
+select b1_0.author_id,b1_0.id,b1_0.title from book b1_0 where b1_0.author_id = any (?);
+select b1_0.author_id,b1_0.id,b1_0.title from book b1_0 where b1_0.author_id=?;
+```
+
+Вот так он и работает

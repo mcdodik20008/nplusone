@@ -3,6 +3,8 @@ package mcdodik.npusone.model;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import java.util.Set;
 
@@ -18,6 +20,7 @@ public class Author {
     private String name;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "author")
+    @Fetch(FetchMode.SELECT)
     private Set<Book> books;
 
     public String getName(){

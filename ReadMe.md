@@ -17,6 +17,20 @@
 
 `entitygraph`
 
+Задаем граф загрузки с помощью аннотации @EntityGraph
+
+```java
+@EntityGraph(attributePaths = {"books"})
+@Query("SELECT a FROM Author a")
+List<Author> findAllWithGraph();   
+```
+
+формируется тоже один запрос
+
+```sql
+select a1_0.id,b1_0.author_id,b1_0.id,b1_0.title,a1_0.name from author a1_0 left join book b1_0 on a1_0.id=b1_0.author_id
+```
+
 <h2> Query с JOIN FETCH </h2>
 
 `query`

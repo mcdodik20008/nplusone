@@ -19,7 +19,7 @@ public class AuthorController {
 
     @GetMapping(value = "/", produces = "application/json")
     public List<Author> printAuthorsWithBooks() {
-        List<Author> authors = authorRepository.findAll();
+        List<Author> authors = authorRepository.findAllWithQuery();
 
         for (Author author : authors) {
             System.out.println("Author: " + author.getName());
